@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 
-public class PlayersDTO {
+public class GameDTO {
     @NotBlank
     private String player1Name;
 
@@ -16,6 +16,8 @@ public class PlayersDTO {
 
     @NotBlank
     private String player4Name;
+
+    private String name;
 
     public String getPlayer1Name() {
         return player1Name;
@@ -47,5 +49,13 @@ public class PlayersDTO {
 
     public void setPlayer4Name(String player4Name) {
         this.player4Name = player4Name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

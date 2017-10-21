@@ -9,17 +9,16 @@ import java.util.List;
 public class Game {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private String name;
     @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
     private List<Player> playerList;
 
-    public Integer getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Player> getPlayerList() {

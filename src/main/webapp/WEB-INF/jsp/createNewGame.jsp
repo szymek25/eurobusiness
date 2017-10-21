@@ -11,6 +11,7 @@
             <form:input type="text" path="player2Name" />
             <form:input type="text" path="player3Name" />
             <form:input type="text" path="player4Name" />
+            <form:input type="text" path="name" />
             <input type="submit" value=<spring:message code="eurobusiness.menu.create.add"/> />
         </form:form>
 	</body>

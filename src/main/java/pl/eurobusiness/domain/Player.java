@@ -1,6 +1,7 @@
 package pl.eurobusiness.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Player {
@@ -13,6 +14,11 @@ public class Player {
 
     @ManyToOne
     private Game game;
+
+    @OneToMany(mappedBy="owner", fetch=FetchType.EAGER)
+    private List<City> cityList;
+
+    private int accountAmount;
 
     public Integer getId() {
         return id;
@@ -36,5 +42,21 @@ public class Player {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public List<City> getCityList() {
+        return cityList;
+    }
+
+    public void setCityList(List<City> cityList) {
+        this.cityList = cityList;
+    }
+
+    public int getAccountAmount() {
+        return accountAmount;
+    }
+
+    public void setAccountAmount(int accountAmount) {
+        this.accountAmount = accountAmount;
     }
 }

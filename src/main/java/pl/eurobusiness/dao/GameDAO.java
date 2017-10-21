@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import pl.eurobusiness.domain.Game;
 
 @Repository
-public interface GameDAO extends CrudRepository<Game, Integer> {
-
+public interface GameDAO extends CrudRepository<Game, String> {
+    public Game findByName(String name);
 }
