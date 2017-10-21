@@ -6,8 +6,9 @@
 	</head>
 	<body>
 
- <a href = "newGame"><spring:message code="eurobusiness.menu.main.newgame"/></a>
- <spring:message code="eurobusiness.menu.main.continue"/>
+ <p><a href = "newGame"><spring:message code="eurobusiness.menu.main.newgame"/></a></p>
+
+ <p><a href="loadGame"> <spring:message code="eurobusiness.menu.main.continue"/></a></p>
 
 	</body>
 </html>

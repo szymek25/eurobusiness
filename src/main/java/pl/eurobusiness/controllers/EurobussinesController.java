@@ -35,8 +35,14 @@ public class EurobussinesController {
         return "createNewGame";
     }
 
+    @RequestMapping("loadGame")
+    public String loadGame(Model model) {
+        model.addAttribute("games", gameService.getAllGames());
+        return "games";
+    }
+
     @RequestMapping("game-{name}")
-    public String gameView(HttpServletRequest request, @PathVariable("name") String name, Model model) {
+    public String gameView(@PathVariable("name") String name, Model model) {
         Game game = gameService.getGameByName(name);
         model.addAttribute("game", game);
         return "game";

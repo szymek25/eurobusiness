@@ -11,9 +11,6 @@ import pl.eurobusiness.service.CityService;
 import pl.eurobusiness.service.GameService;
 import pl.eurobusiness.service.PlayerService;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
 public class ActionsController {
 
@@ -27,13 +24,13 @@ public class ActionsController {
     GameService gameService;
 
     @RequestMapping("game-{name}/{player}")
-    public String getActionViewForPlayer(HttpServletRequest request, Model model, @PathVariable("player") Integer playerId) {
+    public String getActionViewForPlayer(@PathVariable("player") Integer playerId) {
 
         return "actions";
     }
 
     @RequestMapping("/game-{game}/{player}/buyCity")
-    public String getFreeCityList(HttpServletRequest request, @PathVariable("game") String game, @PathVariable("player") Integer playerId, Model model) {
+    public String getFreeCityList(@PathVariable("game") String game, @PathVariable("player") Integer playerId, Model model) {
 
         model.addAttribute("player", playerService.getPlayerById(playerId));
         model.addAttribute("game", gameService.getGameByName(game));
@@ -42,10 +39,10 @@ public class ActionsController {
     }
 
     @RequestMapping("/game-{game}/{player}/buyCity/{cityId}")
-    public String buyCity(@PathVariable("cityId")Integer cityId, @PathVariable("game") String game, @PathVariable("player") Integer playerId){
+    public String buyCity(@PathVariable("cityId") Integer cityId, @PathVariable("game") String game, @PathVariable("player") Integer playerId) {
         Player player = playerService.getPlayerById(playerId);
         City city = cityService.getCityById(cityId);
-        cityService.buyCity(player,city);
+        cityService.buyCity(player, city);
         return "redirect:/game-{game}/{player}/buyCity";
     }
 

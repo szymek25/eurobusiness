@@ -8,6 +8,7 @@ import pl.eurobusiness.domain.Game;
 import pl.eurobusiness.domain.Player;
 import pl.eurobusiness.dto.GameDTO;
 import pl.eurobusiness.service.GameService;
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,14 @@ public class DefaultGameService implements GameService {
 
     @Override
     public Game getGameByName(String name) {
-        return gameDAO.findByName(name);
+        return gameDAO.findOne(name);
+    }
+
+    @Override
+    public List<Game> getAllGames() {
+        Iterable<Game> games = gameDAO.findAll();
+        List<Game> gameList = Lists.newArrayList(games);
+        return gameList;
     }
 
 }
