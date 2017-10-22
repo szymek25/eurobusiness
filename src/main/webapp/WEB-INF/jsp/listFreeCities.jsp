@@ -2,7 +2,11 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<spring:message code="eurobusiness.actions.listoffreecities.list"/>
+<p> <spring:message code="eurobusiness.actions.listoffreecities.list"/> </p>
+
+<c:if test="${not empty error}">
+    <p> ${error} </p>
+</c:if>
 
 <c:forEach items="${cities}" var="city" varStatus="status">
     <tr>

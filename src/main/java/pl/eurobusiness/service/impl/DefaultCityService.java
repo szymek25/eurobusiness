@@ -7,6 +7,7 @@ import pl.eurobusiness.dao.PlayerDAO;
 import pl.eurobusiness.domain.City;
 import pl.eurobusiness.domain.Player;
 import pl.eurobusiness.service.CityService;
+import pl.eurobusiness.service.MessageService;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public class DefaultCityService implements CityService {
     @Autowired
     PlayerDAO playerDAO;
 
+    @Autowired
+    MessageService messageService;
+
     @Override
     public List<City> getFreeCities() {
         return cityDAO.findByOwnerIsNull();
@@ -26,10 +30,10 @@ public class DefaultCityService implements CityService {
 
     @Override
     public boolean buyCity(Player player, City city) {
-        if(player != null && city !=null){
+        if (player != null && city != null) {
             int playerAmount = player.getAccountAmount();
-            if(playerAmount < city.getPrice()){
-                return false;
+            if (playerAmount < city.getPrice()) {
+                throw new IllegalStateException(messageService.get("eurbusiness.errors.tolowmoney"));
             }
             playerAmount = playerAmount - city.getPrice();
             player.setAccountAmount(playerAmount);

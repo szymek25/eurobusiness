@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.eurobusiness.domain.City;
 import pl.eurobusiness.domain.Player;
 import pl.eurobusiness.service.CityService;
@@ -23,6 +24,8 @@ public class ActionsController {
     @Autowired
     GameService gameService;
 
+    private static String ERROR_LOW_MONEY = "error";
+
     @RequestMapping("game-{name}/{player}")
     public String getActionViewForPlayer(@PathVariable("player") Integer playerId) {
 
@@ -31,7 +34,6 @@ public class ActionsController {
 
     @RequestMapping("/game-{game}/{player}/buyCity")
     public String getFreeCityList(@PathVariable("game") String game, @PathVariable("player") Integer playerId, Model model) {
-
         model.addAttribute("player", playerService.getPlayerById(playerId));
         model.addAttribute("game", gameService.getGameByName(game));
         model.addAttribute("cities", cityService.getFreeCities());
@@ -39,10 +41,14 @@ public class ActionsController {
     }
 
     @RequestMapping("/game-{game}/{player}/buyCity/{cityId}")
-    public String buyCity(@PathVariable("cityId") Integer cityId, @PathVariable("game") String game, @PathVariable("player") Integer playerId) {
+    public String buyCity(RedirectAttributes redirectAttributes, @PathVariable("cityId") Integer cityId, @PathVariable("game") String game, @PathVariable("player") Integer playerId) {
         Player player = playerService.getPlayerById(playerId);
         City city = cityService.getCityById(cityId);
-        cityService.buyCity(player, city);
+        try {
+            cityService.buyCity(player, city);
+        } catch (IllegalStateException e) {
+            redirectAttributes.addFlashAttribute(ERROR_LOW_MONEY, e.getMessage());
+        }
         return "redirect:/game-{game}/{player}/buyCity";
     }
 
