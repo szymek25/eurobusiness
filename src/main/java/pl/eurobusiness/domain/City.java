@@ -20,6 +20,12 @@ public class City {
 
     private int valueForHotel;
 
+    private int quantityOfProperty;
+
+    private int propertyPrice;
+
+    private int hotelPrice;
+
     @ManyToOne
     private Player owner;
 
@@ -77,6 +83,30 @@ public class City {
 
     public void setValueForHotel(int valueForHotel) {
         this.valueForHotel = valueForHotel;
+    }
+
+    public int getQuantityOfProperty() {
+        return quantityOfProperty;
+    }
+
+    public void setQuantityOfProperty(int quantityOfProperty) {
+        this.quantityOfProperty = quantityOfProperty;
+    }
+
+    public int getPropertyPrice() {
+        return propertyPrice;
+    }
+
+    public void setPropertyPrice(int propertyPrice) {
+        this.propertyPrice = propertyPrice;
+    }
+
+    public int getHotelPrice() {
+        return hotelPrice;
+    }
+
+    public void setHotelPrice(int hotelPrice) {
+        this.hotelPrice = hotelPrice;
     }
 
     public Player getOwner() {

@@ -8,23 +8,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.eurobusiness.domain.City;
 import pl.eurobusiness.domain.Player;
+import pl.eurobusiness.exceptions.PayException;
 import pl.eurobusiness.service.CityService;
 import pl.eurobusiness.service.GameService;
 import pl.eurobusiness.service.PlayerService;
 
+import java.util.List;
+
 @Controller
 public class ActionsController {
 
+    private static String ERROR_LOW_MONEY = "error";
     @Autowired
     CityService cityService;
-
     @Autowired
     PlayerService playerService;
-
     @Autowired
     GameService gameService;
-
-    private static String ERROR_LOW_MONEY = "error";
 
     @RequestMapping("game-{name}/{player}")
     public String getActionViewForPlayer(@PathVariable("player") Integer playerId) {
@@ -46,10 +46,18 @@ public class ActionsController {
         City city = cityService.getCityById(cityId);
         try {
             cityService.buyCity(player, city);
-        } catch (IllegalStateException e) {
+        } catch (PayException e) {
             redirectAttributes.addFlashAttribute(ERROR_LOW_MONEY, e.getMessage());
         }
         return "redirect:/game-{game}/{player}/buyCity";
+    }
+
+    @RequestMapping("game-{name}/{player}/cities")
+    public String showOwnedCities(@PathVariable("player") Integer playerId, Model model) {
+        Player player = playerService.getPlayerById(playerId);
+        List<City> cities = cityService.getCityByPlayer(player);
+        model.addAttribute("cities", cities);
+        return "cities";
     }
 
 }

@@ -1,3 +1,4 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-<a href="/game-${game}/${player}/buyCity"><spring:message code="eurobusiness.actions.buycity"/> </a>
+<p><a href="/game-${game}/${player}/buyCity"><spring:message code="eurobusiness.actions.buycity"/> </a></p>
+<p><a href="/game-${game}/${player}/cities"><spring:message code="eurobusiness.actions.showCities"/> </a></p>
