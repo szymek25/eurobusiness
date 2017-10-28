@@ -26,9 +26,9 @@ public class ActionsController {
     @Autowired
     GameService gameService;
 
-    @RequestMapping("game-{name}/{player}")
-    public String getActionViewForPlayer(@PathVariable("player") Integer playerId) {
-
+    @RequestMapping("game-{game}/{player}")
+    public String getActionViewForPlayer(@PathVariable("player") Integer playerId,@PathVariable("game") String name, Model model) {
+        model.addAttribute("game", gameService.getGameByName(name));
         return "actions";
     }
 
@@ -52,11 +52,13 @@ public class ActionsController {
         return "redirect:/game-{game}/{player}/buyCity";
     }
 
-    @RequestMapping("game-{name}/{player}/cities")
-    public String showOwnedCities(@PathVariable("player") Integer playerId, Model model) {
+    @RequestMapping("game-{game}/{player}/cities")
+    public String showOwnedCities(@PathVariable("player") Integer playerId,@PathVariable("game")String game, Model model) {
         Player player = playerService.getPlayerById(playerId);
         List<City> cities = cityService.getCityByPlayer(player);
         model.addAttribute("cities", cities);
+        model.addAttribute("player", player);
+        model.addAttribute("game" , gameService.getGameByName(game));
         return "cities";
     }
 

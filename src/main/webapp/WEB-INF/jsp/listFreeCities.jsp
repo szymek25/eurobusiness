@@ -13,3 +13,5 @@
         <td><a href="/game-${game.name}/${player.id}/buyCity/${city.id}">${city.name} </a>${city.price}</td>
     </tr>
 </c:forEach>
+
+<p><a href="/game-${game.name}/${player.id}"> <spring:message code="eurobusiness.actions.back"/> </a></p>

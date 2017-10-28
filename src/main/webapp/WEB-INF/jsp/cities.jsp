@@ -2,7 +2,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <c:forEach items="${cities}" var="city">
-    <a href="/game-${game}/${player}/${city.id}">${city.name}</a>
+    <a href="/game-${game.name}/${player.id}/${city.id}">${city.name}</a>
     <c:choose>
         <c:when test="${city.quantityOfProperty <= 3}">
             <spring:message code="eurobusiness.actions.showCities.houses"/>: ${city.quantityOfProperty}
@@ -12,3 +12,5 @@
         </c:when>
     </c:choose>
 </c:forEach>
+
+<p><a href="/game-${game.name}/${player.id}"> <spring:message code="eurobusiness.actions.back"/> </a></p>
