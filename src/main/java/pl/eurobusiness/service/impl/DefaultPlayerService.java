@@ -15,4 +15,9 @@ public class DefaultPlayerService implements PlayerService {
     public Player getPlayerById(Integer playerId) {
         return playerDAO.findOne(playerId);
     }
+
+    @Override
+    public Iterable<Player> getAllPlayers() {
+        return playerDAO.findAll();
+    }
 }

@@ -28,4 +28,16 @@ public class DefaultPayService implements PayService {
 
         return player;
     }
+
+    @Override
+    public boolean payToPlayer(Player sourcePlayer, Player destinationPlayer, Integer value) throws PayException {
+        boolean isSucceded = false;
+        pay(sourcePlayer,value);
+
+        Integer amountOfDestinationPlayer = destinationPlayer.getAccountAmount();
+        destinationPlayer.setAccountAmount(amountOfDestinationPlayer + value);
+        playerDAO.save(destinationPlayer);
+
+        return isSucceded;
+    }
 }
