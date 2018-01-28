@@ -10,8 +10,8 @@
 
 <c:forEach items="${cities}" var="city" varStatus="status">
     <tr>
-        <td><a href="/game-${game.name}/${player.id}/buyCity/${city.id}">${city.name} </a>${city.price}</td>
+        <td><a href="/${player.id}/buyCity/${city.id}">${city.name} </a>${city.price}</td>
     </tr>
 </c:forEach>
 
-<p><a href="/game-${game.name}/${player.id}"> <spring:message code="eurobusiness.actions.back"/> </a></p>
+<p><a href="/game/${player.id}"> <spring:message code="eurobusiness.actions.back"/> </a></p>

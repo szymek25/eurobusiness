@@ -6,60 +6,69 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.eurobusiness.EurobusinesConstants;
 import pl.eurobusiness.domain.City;
+import pl.eurobusiness.domain.Game;
 import pl.eurobusiness.domain.Player;
 import pl.eurobusiness.exceptions.PayException;
 import pl.eurobusiness.service.CityService;
-import pl.eurobusiness.service.GameService;
 import pl.eurobusiness.service.PlayerService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
 public class ActionsController {
 
-    private static String ERROR_LOW_MONEY = "error";
     @Autowired
     CityService cityService;
     @Autowired
     PlayerService playerService;
-    @Autowired
-    GameService gameService;
 
-    @RequestMapping("game-{game}/{player}")
-    public String getActionViewForPlayer(@PathVariable("player") Integer playerId,@PathVariable("game") String name, Model model) {
-        model.addAttribute("game", gameService.getGameByName(name));
+    @RequestMapping("game/{player}")
+    public String getActionViewForPlayer(HttpServletRequest request, @PathVariable("player") Integer playerId, Model model) {
+        if (loadGameAndAddToModel(request, model)) {
+            return "redirect:/";
+        }
         return "actions";
     }
 
-    @RequestMapping("/game-{game}/{player}/buyCity")
-    public String getFreeCityList(@PathVariable("game") String game, @PathVariable("player") Integer playerId, Model model) {
+
+    @RequestMapping("/{player}/buyCity")
+    public String getFreeCityList(HttpServletRequest request, @PathVariable("player") Integer playerId, Model model) {
         model.addAttribute("player", playerService.getPlayerById(playerId));
-        model.addAttribute("game", gameService.getGameByName(game));
         model.addAttribute("cities", cityService.getFreeCities());
+
         return "listFreeCities";
     }
 
-    @RequestMapping("/game-{game}/{player}/buyCity/{cityId}")
-    public String buyCity(RedirectAttributes redirectAttributes, @PathVariable("cityId") Integer cityId, @PathVariable("game") String game, @PathVariable("player") Integer playerId) {
+    @RequestMapping("/{player}/buyCity/{cityId}")
+    public String buyCity(RedirectAttributes redirectAttributes, @PathVariable("cityId") Integer cityId, @PathVariable("player") Integer playerId) {
         Player player = playerService.getPlayerById(playerId);
         City city = cityService.getCityById(cityId);
         try {
             cityService.buyCity(player, city);
         } catch (PayException e) {
-            redirectAttributes.addFlashAttribute(ERROR_LOW_MONEY, e.getMessage());
+            redirectAttributes.addFlashAttribute(EurobusinesConstants.ERROR_LOW_MONEY, e.getMessage());
         }
-        return "redirect:/game-{game}/{player}/buyCity";
+        return "redirect:../buyCity";
     }
 
-    @RequestMapping("game-{game}/{player}/cities")
-    public String showOwnedCities(@PathVariable("player") Integer playerId,@PathVariable("game")String game, Model model) {
+    @RequestMapping("/{player}/cities")
+    public String showOwnedCities(@PathVariable("player") Integer playerId, Model model) {
         Player player = playerService.getPlayerById(playerId);
         List<City> cities = cityService.getCityByPlayer(player);
         model.addAttribute("cities", cities);
         model.addAttribute("player", player);
-        model.addAttribute("game" , gameService.getGameByName(game));
         return "cities";
     }
 
+    private boolean loadGameAndAddToModel(HttpServletRequest request, Model model) {
+        Game game = (Game) request.getSession().getAttribute(EurobusinesConstants.CURRENT_GAME);
+        if (game == null) {
+            return true;
+        }
+        model.addAttribute("game", game);
+        return false;
+    }
 }
