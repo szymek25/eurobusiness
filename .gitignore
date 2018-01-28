@@ -74,3 +74,12 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+/.idea/workspace.xml
+/eurobusiness-core.iml
+/target/classes/application.properties
+/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+/target/eurobusiness-core-1.0-SNAPSHOT.jar.original
+/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+/target/classes/messages.properties
+/target/maven-archiver/pom.properties
+/.idea/vcs.xml
