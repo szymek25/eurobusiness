@@ -84,4 +84,47 @@ public class DefaultCityService implements CityService {
 
         return city;
     }
+
+    @Override
+    public List<City> getSoldCitiesWithoutCurrentPlayer(int playerId) {
+        return cityDAO.findWithoutCurrentPlayer(playerId);
+    }
+
+    @Override
+    public boolean payForStopInCity(Player player, City city, Player owner) throws PayException {
+        int price;
+        price = getPriceForStop(city);
+
+        try {
+            payService.payToPlayer(player, owner, price);
+        } catch (PayException e) {
+            throw e;
+        }
+
+        return false;
+    }
+
+    private int getPriceForStop(City city) {
+        int value = 0;
+        if (city.getQuantityOfProperty() == 0) {
+            value = city.getValueWithoutProperty();
+        }
+
+        if (city.getQuantityOfProperty() == 1) {
+            value = city.getValueForOneProperty();
+        }
+
+        if (city.getQuantityOfProperty() == 2) {
+            value = city.getValueForTwoProperty();
+        }
+
+        if (city.getQuantityOfProperty() == 3) {
+            value = city.getValueForThreeProperty();
+        }
+
+        if (city.getQuantityOfProperty() == 4) {
+            value = city.getValueForHotel();
+        }
+        return value;
+    }
 }

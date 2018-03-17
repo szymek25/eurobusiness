@@ -12,6 +12,8 @@ public class City {
 
     private int price;
 
+    private int valueWithoutProperty;
+
     private int valueForOneProperty;
 
     private int valueForTwoProperty;
@@ -20,6 +22,7 @@ public class City {
 
     private int valueForHotel;
 
+    @Column(columnDefinition = "default '0'")
     private int quantityOfProperty;
 
     private int propertyPrice;
@@ -115,5 +118,13 @@ public class City {
 
     public void setOwner(Player owner) {
         this.owner = owner;
+    }
+
+    public int getValueWithoutProperty() {
+        return valueWithoutProperty;
+    }
+
+    public void setValueWithoutProperty(int valueWithoutProperty) {
+        this.valueWithoutProperty = valueWithoutProperty;
     }
 }

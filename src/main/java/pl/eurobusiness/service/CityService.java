@@ -16,4 +16,9 @@ public interface CityService {
     List<City> getCityByPlayer(Player player);
 
     City buildProperty(City city, Player player) throws PayException;
+
+    List<City> getSoldCitiesWithoutCurrentPlayer(int playerId);
+
+    boolean payForStopInCity(Player player, City city, Player owner) throws PayException;
+
 }

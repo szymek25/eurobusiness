@@ -48,4 +48,27 @@ public class CityActionsContoller {
         return "redirect:/{player}/{cityId}";
     }
 
+    @RequestMapping("/{player}/selectStopCity")
+    public String selectStopCity(@PathVariable("player") Integer playerId, Model model) {
+        model.addAttribute("cities", cityService.getSoldCitiesWithoutCurrentPlayer(playerId));
+        model.addAttribute("player", playerService.getPlayerById(playerId));
+
+        return "soldCities";
+    }
+
+    @RequestMapping("/{player}/{city}/{owner}")
+    public String payForStopInCity(@PathVariable("player") Integer playerId, @PathVariable("city") Integer cityId, @PathVariable("owner") Integer ownerId,RedirectAttributes redirectAttributes) {
+        Player player = playerService.getPlayerById(playerId);
+        Player owner = playerService.getPlayerById(ownerId);
+        City city = cityService.getCityById(cityId);
+
+        try {
+            cityService.payForStopInCity(player, city, owner);
+            redirectAttributes.addFlashAttribute(EurobusinesConstants.SUCCES_MESSAGE, messageService.get("eurobusiness.actions.succes"));
+        } catch (PayException e) {
+            redirectAttributes.addFlashAttribute(EurobusinesConstants.ERROR_LOW_MONEY, e.getMessage());
+        }
+
+        return "redirect:/{player}/selectStopCity";
+    }
 }
